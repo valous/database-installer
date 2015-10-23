@@ -1,0 +1,21 @@
+{
+    "name": "valous/database-installer",
+    "type": "library",
+    "description": "Database installer",
+    "authors": [
+        {
+            "name": "David Valenta",
+            "email": "info@davidvalenta.cz",
+            "homepage": "https://www.davidvalenta.cz"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Valous\\DatabaseInstaller\\": "src/"
+        }
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "symfony/yaml": "2.3.*"
+    }
+}
