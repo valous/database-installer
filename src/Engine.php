@@ -58,7 +58,11 @@ class Engine
         echo 'Update Migrations: ';
 
         $dirIterator = new DirectoryIterator($this->dbFilesDir);
+
+        $files = [];
         $installed = [];
+        $i = 0;
+
         foreach ($dirIterator as $dir) {
             $file = $dir->getFilename();
             if ($file == '.' || $file == '..' || !preg_match('/\.sql$/', $file)) {
@@ -70,11 +74,21 @@ class Engine
                 continue;
             }
 
-            if ($this->install($dir->getPathname())) {
-                $installed[] = $file;
-                echo PHP_EOL . $file . ': Success';
+            $files[$i]['path'] = $dir->getPathname();
+            $files[$i]['name'] = $file;
+            $i++;
+        }
+
+        usort($files, function($val1, $val2) {
+            return strcmp($val1['name'], $val2['name']);
+        });
+
+        foreach ($files as $file) {
+            if ($this->install($file['path'])) {
+                $installed[] = $file['name'];
+                echo PHP_EOL . $file['name'] . ': Success';
             } else {
-                echo PHP_EOL . $file . ': Fail';
+                echo PHP_EOL . $file['name'] . ': Fail';
                 break;
             }
         }
